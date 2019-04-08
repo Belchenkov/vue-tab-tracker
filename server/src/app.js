@@ -5,13 +5,15 @@ const morgan = require('morgan');
 
 const app = express();
 
-app.use(morgan('combine'));
+app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
 app.post('/register', (req, res) => {
     res.send({
-       message: 'your user was registered'
+       message: 'your user was registered',
+       email: req.body.email,
+       password: req.body.password
     });
 });
 
