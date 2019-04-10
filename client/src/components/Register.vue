@@ -6,18 +6,18 @@
           <v-toolbar-title class="white--text">Register</v-toolbar-title>
         </v-toolbar>
         <div class="pl-4 pr-4 pt-2 pb-2">
-          <input
-                  type="text"
-                  name="email"
-                  v-model="email"
-                  placeholder="email"
-          /><br />
-          <input
-                  type="password"
-                  name="password"
-                  v-model="password"
-                  placeholder="password"
-          /><br />
+          <div>
+            <v-text-field
+                    label="Email"
+                    v-model="email"
+            ></v-text-field>
+          </div>
+          <div>
+            <v-text-field
+                    label="Password"
+                    v-model="password"
+            ></v-text-field>
+          </div>
           <div class="error" v-html="error"></div>
           <v-btn class="cyan darken-3 white--text" @click="register">Register</v-btn>
         </div>
