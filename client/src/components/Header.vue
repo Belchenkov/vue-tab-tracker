@@ -9,19 +9,31 @@
         </v-toolbar-title>
 
         <v-toolbar-items>
-            <v-btn flat>
+            <v-btn
+                    v-if="$store.state.isUserLoggedIn"
+                    flat
+            >
                 Browse
             </v-btn>
         </v-toolbar-items>
         <v-spacer></v-spacer>
         <v-toolbar-items>
-            <v-btn flat dark @click="navigateTo({name: 'login'})">
+            <v-btn
+                    flat
+                    dark @click="navigateTo({name: 'login'})"
+                    v-if="!$store.state.isUserLoggedIn"
+            >
                 <v-icon dark right class="mr-1">lock_outline</v-icon>
                 Login
             </v-btn>
         </v-toolbar-items>
         <v-toolbar-items>
-            <v-btn flat dark @click="navigateTo({name: 'register'})">
+            <v-btn
+                    flat
+                    dark
+                    @click="navigateTo({name: 'register'})"
+                    v-if="!$store.state.isUserLoggedIn"
+            >
                 <v-icon dark right class="mr-1">person_add</v-icon>
                 Sign Up
             </v-btn>

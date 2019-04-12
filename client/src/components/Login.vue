@@ -9,6 +9,7 @@
           <div>
             <v-text-field
                     label="Email"
+                    type="email"
                     prepend-icon="email"
                     v-model="email"
             ></v-text-field>
@@ -16,6 +17,7 @@
           <div>
             <v-text-field
                     label="Password"
+                    type="password"
                     prepend-icon="vpn_key"
                     v-model="password"
             ></v-text-field>
@@ -43,10 +45,13 @@ export default {
   methods: {
       async login () {
            try {
-               await AuthenticationService.login({
+               const response = await AuthenticationService.login({
                    email: this.email,
                    password: this.password
                });
+
+               this.$store.dispatch('setToken', response.data.token);
+               this.$store.dispatch('setUser', response.data.user);
            }  catch (error) {
                this.error = error.response.data.error;
            }
