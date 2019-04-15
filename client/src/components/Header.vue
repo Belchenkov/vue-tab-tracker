@@ -10,9 +10,11 @@
 
         <v-toolbar-items>
             <v-btn
-                    v-if="$store.state.isUserLoggedIn"
                     flat
+                    dark
+                    @click="navigateTo({name: 'songs'})"
             >
+                <v-icon dark right class="mr-1">library_music</v-icon>
                 Browse
             </v-btn>
         </v-toolbar-items>
@@ -45,7 +47,7 @@
                     @click="logout"
                     v-if="$store.state.isUserLoggedIn"
             >
-                <v-icon dark right class="mr-1">input</v-icon>
+                <v-icon dark right class="mr-1">exit_to_app</v-icon>
                 Log Out
             </v-btn>
         </v-toolbar-items>
