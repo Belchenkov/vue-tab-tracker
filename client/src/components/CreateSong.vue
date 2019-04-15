@@ -5,31 +5,38 @@
                 <v-text-field
                         label="Title"
                         type="text"
+                        required
+                        :rules="[required]"
                         v-model="song.title"
                 ></v-text-field>
                 <v-text-field
                         label="Artist"
                         type="text"
+                        :rules="[required]"
                         v-model="song.artist"
                 ></v-text-field>
                 <v-text-field
                         label="Genre"
                         type="text"
+                        :rules="[required]"
                         v-model="song.genre"
                 ></v-text-field>
                 <v-text-field
                         label="Album"
                         type="text"
+                        :rules="[required]"
                         v-model="song.album"
                 ></v-text-field>
                 <v-text-field
                         label="Album Image Url"
                         type="text"
+                        :rules="[required]"
                         v-model="song.albumImageUrl"
                 ></v-text-field>
                 <v-text-field
                         label="YouTube ID"
                         type="text"
+                        :rules="[required]"
                         v-model="song.youtubeId"
                 ></v-text-field>
             </panel>
@@ -39,6 +46,7 @@
                 <v-text-field
                         label="Tab"
                         type="text"
+                        :rules="[required]"
                         v-model="song.tab"
                         multi-line
                 ></v-text-field>
@@ -46,9 +54,13 @@
                         label="Lyrics"
                         type="text"
                         multi-line
+                        :rules="[required]"
                         v-model="song.lyrics"
                 ></v-text-field>
             </panel>
+            <div class="danger-alert" v-if="error">
+                {{ error }}
+            </div>
             <v-btn
                 dark
                 class="cyan"
@@ -74,7 +86,9 @@
                     youtubeId: '',
                     lyrics: '',
                     tab: ''
-                }
+                },
+                error: '',
+                required: value => !!value || 'Required'
             }
         },
         components: {
@@ -83,7 +97,17 @@
         },
         methods: {
             async create () {
-                // call API
+                this.error = null;
+
+                const areAllFieldsFilledIn = Object
+                    .keys(this.song)
+                    .every(key => !!this.song[key]);
+
+                if (!areAllFieldsFilledIn) {
+                    this.error = 'Please fill in all the required fields!';
+                    return;
+                }
+
                 try {
                     await SongsService.post(this.song);
                     this.$router.push({

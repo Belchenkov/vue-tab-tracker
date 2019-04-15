@@ -35,7 +35,9 @@ export default {
   border-bottom: 1px solid #eee;
 }
 
-
+.danger-alert {
+  color: red;
+}
 
 
 </style>
