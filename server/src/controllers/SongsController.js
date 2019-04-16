@@ -14,6 +14,17 @@ module.exports = {
         }
     },
 
+    async show (req, res) {
+        try {
+            const song = await Song.findOne({where: {id: +req.params.songId}});
+            res.send(song);
+        } catch (err) {
+            res.status(500).send({
+                error: 'an error has occured trying to show the songs'
+            })
+        }
+    },
+
     async post (req, res) {
         try {
             const song = await Song.create(req.body);
