@@ -1,10 +1,7 @@
 <template>
   <v-layout column>
     <v-flex xs6 offset-xs3>
-      <div class="white elevation-2">
-        <v-toolbar flat dense class="cyan lighten-1" dark>
-          <v-toolbar-title class="white--text">Register</v-toolbar-title>
-        </v-toolbar>
+      <panel title="Register">
         <div class="pl-4 pr-4 pt-2 pb-2">
           <form name="tab-tracker-form" autocomplete="off">
             <div>
@@ -28,13 +25,14 @@
             <v-btn class="cyan lighten-1 white--text" @click="register">Register</v-btn>
           </form>
         </div>
-      </div>
+      </panel>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
 import AuthenticationService from '@/services/AuthenticationService';
+import Panel from '@/components/Panel';
 
 export default {
   name: 'Register',
@@ -44,6 +42,9 @@ export default {
         password: '',
         error: null
     }
+  },
+  components: {
+      Panel
   },
   methods: {
       async register () {

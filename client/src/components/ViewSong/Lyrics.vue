@@ -1,0 +1,32 @@
+<template>
+    <panel title="Lyrics">
+        <textarea
+                readonly
+                v-model="song.lyrics"
+        ></textarea>
+    </panel>
+</template>
+
+<script>
+    import Panel from '@/components/Panel';
+
+    export default {
+        props: [
+            'song'
+        ],
+        components: {
+            Panel
+        }
+    }
+</script>
+
+<style scoped>
+    textarea {
+        width: 100%;
+        font-family: monospace;
+        height: 600px;
+        border: none transparent;
+        overflow: auto;
+        padding: 20px;
+    }
+</style>

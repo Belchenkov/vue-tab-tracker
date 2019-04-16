@@ -10,9 +10,11 @@
 
         <v-toolbar-items>
             <v-btn
-                    v-if="$store.state.isUserLoggedIn"
                     flat
+                    dark
+                    @click="navigateTo({name: 'songs'})"
             >
+                <v-icon dark right class="mr-1">library_music</v-icon>
                 Browse
             </v-btn>
         </v-toolbar-items>
@@ -38,6 +40,17 @@
                 Sign Up
             </v-btn>
         </v-toolbar-items>
+        <v-toolbar-items>
+            <v-btn
+                    flat
+                    dark
+                    @click="logout"
+                    v-if="$store.state.isUserLoggedIn"
+            >
+                <v-icon dark right class="mr-1">exit_to_app</v-icon>
+                Log Out
+            </v-btn>
+        </v-toolbar-items>
     </v-toolbar>
 </template>
 
@@ -47,6 +60,11 @@
         methods: {
             navigateTo (route) {
                 this.$router.push(route);
+            },
+            logout () {
+                this.$store.dispatch('setToken', null);
+                this.$store.dispatch('setUser', null);
+                this.$router.push({name: 'root'});
             }
         }
     }
