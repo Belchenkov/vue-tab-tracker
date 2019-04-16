@@ -47,7 +47,6 @@
             if (res) {
                 this.song = res.data;
             }
-            console.log(this.song);
         }
     }
 </script>
