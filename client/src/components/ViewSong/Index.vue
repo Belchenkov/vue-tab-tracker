@@ -22,7 +22,6 @@
 <script>
     import SongsService from '@/services/SongsService';
     import YouTube from './YouTube';
-    import Panel from '@/components/Panel';
     import SongMetaData from './SongMetaData';
     import Lyrics from './Lyrics';
     import Tab from './Tab';
@@ -34,7 +33,6 @@
           }
         },
         components: {
-            Panel,
             SongMetaData,
             YouTube,
             Lyrics,

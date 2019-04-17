@@ -31,7 +31,6 @@
 </template>
 
 <script>
-    import Panel from '@/components/Panel';
 
     export default {
         props: [
@@ -46,9 +45,6 @@
             navigateTo (route) {
                 this.$router.push(route);
             }
-        },
-        components: {
-            Panel
         },
     }
 </script>
