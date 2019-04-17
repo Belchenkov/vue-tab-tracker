@@ -19,7 +19,7 @@
                         v-model="password"
                 ></v-text-field>
               </div>
-              <div class="error" v-html="error"></div>
+              <div class="danger-alert" v-html="error"></div>
               <v-btn class="cyan lighten-1 white--text" @click="login">Login</v-btn>
             </div>
         </panel>
@@ -62,7 +62,5 @@ export default {
 </script>
 
 <style scoped>
-  .error {
-    color: red;
-  }
+
 </style>

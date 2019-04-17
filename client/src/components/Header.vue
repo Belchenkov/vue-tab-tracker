@@ -3,7 +3,7 @@
         <img src="https://img.icons8.com/plasticine/50/000000/musical-notes.png" />
         <v-toolbar-title class="mr-4">
             <span
-                @click="navigateTo({name: 'root'})"
+                @click="navigateTo({name: 'songs'})"
                 class="home"
             >TabTracker</span>
         </v-toolbar-title>
@@ -64,7 +64,7 @@
             logout () {
                 this.$store.dispatch('setToken', null);
                 this.$store.dispatch('setUser', null);
-                this.$router.push({name: 'root'});
+                this.$router.push({name: 'songs'});
             }
         }
     }
