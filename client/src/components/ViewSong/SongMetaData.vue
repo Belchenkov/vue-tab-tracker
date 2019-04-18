@@ -52,7 +52,8 @@
         ],
         computed: {
             ...mapState([
-                'isUserLoggedIn'
+                'isUserLoggedIn',
+                'user'
             ])
         },
         data () {
@@ -66,7 +67,7 @@
                     try {
                         const res = await BookmarksService.index({
                             songId: this.song.id,
-                            userId: this.$store.state.user.id
+                            userId: this.user.id
                         });
 
                         if (res) {
@@ -86,7 +87,7 @@
                 try {
                     const res = await BookmarksService.post({
                         songId: this.song.id,
-                        userId: this.$store.state.user.id
+                        userId: this.user.id
                     });
 
                     if (res) {
@@ -98,7 +99,7 @@
             },
             async unsetAsBookmark () {
                 try {
-                    await BookmarksService.delete(this.bookmark.id);
+                    await BookmarksService.delete(this.bookmark.bookmarkId);
                     this.bookmark = null;
                 } catch (err) {
                     console.log(err);
