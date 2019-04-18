@@ -22,17 +22,17 @@
                     })"
                 >Edit</v-btn>
                 <v-btn
-                    v-if="isUserLoggedIn && !isBookmarked"
+                    v-if="isUserLoggedIn && !bookmark"
                     dark
                     class="cyan"
-                    @click="unbookmark"
-                >Bookmark</v-btn>
+                    @click="setAsBookmark"
+                >Set As Bookmark</v-btn>
                 <v-btn
-                    v-if="isUserLoggedIn && isBookmarked"
+                    v-if="isUserLoggedIn && bookmark"
                     dark
                     class="cyan"
-                    @click="bookmark"
-                >Unbookmark</v-btn>
+                    @click="unsetAsBookmark"
+                >Unset Bookmark</v-btn>
             </v-flex>
             <v-flex xs6>
                 <img class="album-image" :src="song.albumImageUrl" :alt="song.title" />
@@ -57,25 +57,24 @@
         },
         data () {
             return {
-                isBookmarked: false
+                bookmark: null
             }
         },
-        async mounted () {
-            if (this.isUserLoggedIn) {
-                let bookmark = null;
+        watch: {
+            async song () {
+                if (this.isUserLoggedIn) {
+                    try {
+                        const res = await BookmarksService.index({
+                            songId: this.song.id,
+                            userId: this.$store.state.user.id
+                        });
 
-                try {
-                    const res = await BookmarksService.index({
-                        songId: this.song.id,
-                        userId: this.$store.state.user.id
-                    });
-
-                    if (res) {
-                        bookmark = res.data;
-                        this.isBookmarked = bookmark;
+                        if (res) {
+                            this.bookmark = res.data;
+                        }
+                    } catch (err) {
+                        console.log(err);
                     }
-                } catch (err) {
-                    console.log(err);
                 }
             }
         },
@@ -83,9 +82,7 @@
             navigateTo (route) {
                 this.$router.push(route);
             },
-            async bookmark () {
-                let bookmark = null;
-
+            async setAsBookmark () {
                 try {
                     const res = await BookmarksService.post({
                         songId: this.song.id,
@@ -93,19 +90,16 @@
                     });
 
                     if (res) {
-                        bookmark = res.data;
-                        this.isBookmarked = bookmark;
+                        this.bookmark = res.data;
                     }
                 } catch (err) {
                     console.log(err);
                 }
             },
-            async unbookmark () {
+            async unsetAsBookmark () {
                 try {
-                    await BookmarksService.delete({
-                        songId: this.song.id,
-                        userId: this.$store.state.user.id
-                    });
+                    await BookmarksService.delete(this.bookmark.id);
+                    this.bookmark = null;
                 } catch (err) {
                     console.log(err);
                 }
