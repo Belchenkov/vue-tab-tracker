@@ -21,6 +21,18 @@
                         }
                     })"
                 >Edit</v-btn>
+                <v-btn
+                    v-if="isUserLoggedIn && !isBookmarked"
+                    dark
+                    class="cyan"
+                    @click="unbookmark"
+                >Bookmark</v-btn>
+                <v-btn
+                    v-if="isUserLoggedIn && isBookmarked"
+                    dark
+                    class="cyan"
+                    @click="bookmark"
+                >Unbookmark</v-btn>
             </v-flex>
             <v-flex xs6>
                 <img class="album-image" :src="song.albumImageUrl" :alt="song.title" />
@@ -31,19 +43,72 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex';
+    import BookmarksService from '@/services/BookmarksService';
 
     export default {
         props: [
             'song'
         ],
+        computed: {
+            ...mapState([
+                'isUserLoggedIn'
+            ])
+        },
         data () {
             return {
+                isBookmarked: false
+            }
+        },
+        async mounted () {
+            if (this.isUserLoggedIn) {
+                let bookmark = null;
 
+                try {
+                    const res = await BookmarksService.index({
+                        songId: this.song.id,
+                        userId: this.$store.state.user.id
+                    });
+
+                    if (res) {
+                        bookmark = res.data;
+                        this.isBookmarked = bookmark;
+                    }
+                } catch (err) {
+                    console.log(err);
+                }
             }
         },
         methods: {
             navigateTo (route) {
                 this.$router.push(route);
+            },
+            async bookmark () {
+                let bookmark = null;
+
+                try {
+                    const res = await BookmarksService.post({
+                        songId: this.song.id,
+                        userId: this.$store.state.user.id
+                    });
+
+                    if (res) {
+                        bookmark = res.data;
+                        this.isBookmarked = bookmark;
+                    }
+                } catch (err) {
+                    console.log(err);
+                }
+            },
+            async unbookmark () {
+                try {
+                    await BookmarksService.delete({
+                        songId: this.song.id,
+                        userId: this.$store.state.user.id
+                    });
+                } catch (err) {
+                    console.log(err);
+                }
             }
         },
     }
