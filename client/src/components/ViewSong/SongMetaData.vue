@@ -1,5 +1,5 @@
 <template>
-    <Panel title="Song Metadata">
+    <panel title="Song Metadata">
         <v-layout>
             <v-flex xs6>
                 <div class="song-title">
@@ -21,34 +21,88 @@
                         }
                     })"
                 >Edit</v-btn>
+                <v-btn
+                    v-if="isUserLoggedIn && !bookmark"
+                    dark
+                    class="cyan"
+                    @click="setAsBookmark"
+                >Set As Bookmark</v-btn>
+                <v-btn
+                    v-if="isUserLoggedIn && bookmark"
+                    dark
+                    class="cyan"
+                    @click="unsetAsBookmark"
+                >Unset Bookmark</v-btn>
             </v-flex>
             <v-flex xs6>
                 <img class="album-image" :src="song.albumImageUrl" :alt="song.title" />
                 <br>{{song.album}}
             </v-flex>
         </v-layout>
-    </Panel>
+    </panel>
 </template>
 
 <script>
-    import Panel from '@/components/Panel';
+    import { mapState } from 'vuex';
+    import BookmarksService from '@/services/BookmarksService';
 
     export default {
         props: [
             'song'
         ],
+        computed: {
+            ...mapState([
+                'isUserLoggedIn',
+                'user'
+            ])
+        },
         data () {
             return {
+                bookmark: null
+            }
+        },
+        watch: {
+            async song () {
+                if (this.isUserLoggedIn) {
+                    try {
+                        const res = await BookmarksService.index({
+                            songId: this.song.id
+                        });
 
+                        if (res) {
+                            this.bookmark = res.data;
+                        }
+                    } catch (err) {
+                        console.log(err);
+                    }
+                }
             }
         },
         methods: {
             navigateTo (route) {
                 this.$router.push(route);
+            },
+            async setAsBookmark () {
+                try {
+                    const res = await BookmarksService.post({
+                        songId: this.song.id
+                    });
+
+                    if (res) {
+                        this.bookmark = res.data;
+                    }
+                } catch (err) {
+                    console.log(err);
+                }
+            },
+            async unsetAsBookmark () {
+                try {
+                    await BookmarksService.delete(this.bookmark.bookmarkId);
+                    this.bookmark = null;
+                } catch (err) {
+                    console.log(err);
+                }
             }
-        },
-        components: {
-            Panel
         },
     }
 </script>

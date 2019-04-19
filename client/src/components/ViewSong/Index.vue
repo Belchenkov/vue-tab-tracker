@@ -21,11 +21,13 @@
 
 <script>
     import SongsService from '@/services/SongsService';
+    import SongHistoryService from '@/services/SongHistoryService';
     import YouTube from './YouTube';
-    import Panel from '@/components/Panel';
     import SongMetaData from './SongMetaData';
     import Lyrics from './Lyrics';
     import Tab from './Tab';
+
+    import { mapState } from 'vuex';
 
     export default {
         data () {
@@ -34,11 +36,16 @@
           }
         },
         components: {
-            Panel,
             SongMetaData,
             YouTube,
             Lyrics,
             Tab
+        },
+        computed: {
+            ...mapState([
+                'isUserLoggedIn',
+                'user'
+            ])
         },
         async mounted () {
             const songId = this.$store.state.route.params.songId;
@@ -46,6 +53,13 @@
 
             if (res) {
                 this.song = res.data;
+            }
+
+            if (this.isUserLoggedIn) {
+                SongHistoryService.post({
+                    songId: songId,
+                    userId: this.user.id
+                });
             }
         }
     }
