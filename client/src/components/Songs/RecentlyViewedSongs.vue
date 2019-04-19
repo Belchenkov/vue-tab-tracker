@@ -3,14 +3,13 @@
         <v-data-table
                 :headers="headers"
                 :pagination.sync="pagination"
-                :items="histories"
-        >
+                :items="histories">
             <template slot="items" scope="props">
                 <td class="text-xs-right">
-                    {{ props.item.title }}
+                    {{props.item.title}}
                 </td>
                 <td class="text-xs-right">
-                    {{ props.item.artist }}
+                    {{props.item.artist}}
                 </td>
             </template>
         </v-data-table>
@@ -18,9 +17,8 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex';
-    import SongHistoryService from "../../services/SongHistoryService";
-
+    import {mapState} from 'vuex'
+    import SongHistoryService from '@/services/SongHistoryService'
     export default {
         data () {
             return {
@@ -35,7 +33,7 @@
                     }
                 ],
                 pagination: {
-                    sortBy: 'date',
+                    sortBy: 'createdAt',
                     descending: true
                 },
                 histories: []
@@ -43,19 +41,17 @@
         },
         computed: {
             ...mapState([
-                'isUserLoggedIn'
+                'isUserLoggedIn',
+                'user'
             ])
         },
         async mounted () {
             if (this.isUserLoggedIn) {
-                this.histories = (await SongHistoryService.index({
-                    userId: this.user.id
-                })).data;
+                this.histories = (await SongHistoryService.index()).data
             }
         }
     }
 </script>
 
-<style scoped>
-
+<style>
 </style>

@@ -4,6 +4,7 @@ const BookmarksController = require('./controllers/BookmarksController');
 const HistorysController = require('./controllers/HistorysController');
 
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy');
+const isAuthenticated = require('./policies/isAuthenticated')
 
 module.exports = app => {
     // Auth
@@ -25,13 +26,16 @@ module.exports = app => {
 
     // Bookmarks
     app.get('/bookmarks',
+        isAuthenticated,
         BookmarksController.index);
     app.post('/bookmarks',
+        isAuthenticated,
         BookmarksController.post);
     app.delete('/bookmarks/:bookmarkId',
+        isAuthenticated,
         BookmarksController.delete);
 
     // History
-    app.get('/historys', HistorysController.index);
-    app.post('/historys', HistorysController.post);
+    app.get('/historys', isAuthenticated, HistorysController.index);
+    app.post('/historys',isAuthenticated, HistorysController.post);
 };

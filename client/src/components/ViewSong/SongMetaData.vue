@@ -66,8 +66,7 @@
                 if (this.isUserLoggedIn) {
                     try {
                         const res = await BookmarksService.index({
-                            songId: this.song.id,
-                            userId: this.user.id
+                            songId: this.song.id
                         });
 
                         if (res) {
@@ -86,8 +85,7 @@
             async setAsBookmark () {
                 try {
                     const res = await BookmarksService.post({
-                        songId: this.song.id,
-                        userId: this.user.id
+                        songId: this.song.id
                     });
 
                     if (res) {
