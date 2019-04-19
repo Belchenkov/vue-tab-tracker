@@ -5,7 +5,8 @@
             <songs-panel class="mt-2"></songs-panel>
         </v-flex>
         <v-flex xs6>
-            <songs-bookmarks></songs-bookmarks>
+            <!--<songs-bookmarks></songs-bookmarks>-->
+            <recently-viewed-songs></recently-viewed-songs>
         </v-flex>
     </v-layout>
 </template>
@@ -13,6 +14,7 @@
 <script>
     import SongsPanel from './SongsPanel';
     import SongsBookmarks from './SongsBookmarks';
+    import RecentlyViewedSongs from './RecentlyViewedSongs';
     import SongsSearchPanel from './SongsSearchPanel';
     import SongService from '@/services/SongsService';
 
@@ -21,7 +23,8 @@
             SongService,
             SongsPanel,
             SongsSearchPanel,
-            SongsBookmarks
+            SongsBookmarks,
+            RecentlyViewedSongs
         },
         data () {
             return {
